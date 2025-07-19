@@ -34,45 +34,17 @@ const Header = ({ searchTerm, onSearchChange }: HeaderProps) => {
             </Link>
             
             {/* Navigation */}
-            <nav className="hidden lg:flex items-start space-x-8">
-              <div className="space-y-3">
-                <Link href="/" className="text-gray-900 font-medium border-b-2 border-orange-500 pb-1 block">
-                  Marketplace
-                </Link>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                  <Input
-                    placeholder="Search by name or description"
-                    value={searchTerm}
-                    onChange={(e) => onSearchChange(e.target.value)}
-                    className="pl-10 w-72 xl:w-80 border-gray-300 focus:border-orange-500 focus:ring-orange-500"
-                  />
-                </div>
-              </div>
-              <div className="pt-4">
-                <Link href="/purchases" className="text-gray-600 hover:text-gray-900">
-                  My Purchase
-                </Link>
-              </div>
-              <div className="pt-4">
-                <Link href="/wallet" className="text-gray-600 hover:text-gray-900">
-                  Wallet
-                </Link>
-              </div>
+            <nav className="hidden lg:flex items-center space-x-8">
+              <Link href="/" className="text-gray-900 font-medium border-b-2 border-orange-500 pb-4">
+                Marketplace
+              </Link>
+              <Link href="/purchases" className="text-gray-600 hover:text-gray-900 pb-4">
+                My Purchase
+              </Link>
+              <Link href="/wallet" className="text-gray-600 hover:text-gray-900 pb-4">
+                Wallet
+              </Link>
             </nav>
-
-            {/* Mobile Search */}
-            <div className="flex-1 mx-4 lg:hidden">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                <Input
-                  placeholder="Search..."
-                  value={searchTerm}
-                  onChange={(e) => onSearchChange(e.target.value)}
-                  className="pl-10 w-full border-gray-300 focus:border-orange-500 focus:ring-orange-500"
-                />
-              </div>
-            </div>
           </div>
 
           {/* Actions */}

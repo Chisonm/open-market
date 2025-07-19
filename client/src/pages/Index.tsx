@@ -4,8 +4,9 @@ import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import AccountCard from "@/components/AccountCard";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Menu } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import type { SocialMediaAccount } from "@shared/schema";
 
 const Index = () => {
@@ -77,10 +78,21 @@ const Index = () => {
             {/* Page Header */}
             <div className="mb-6">
               <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Marketplace</h1>
-              <p className="text-sm sm:text-base text-gray-600">Access all products on the marketplace by our verified sellers</p>
+              <p className="text-sm sm:text-base text-gray-600 mb-4">Access all products on the marketplace by our verified sellers</p>
+              
+              {/* Search Bar */}
+              <div className="relative mb-4">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <Input
+                  placeholder="Search by name or description"
+                  value={searchTerm}
+                  onChange={(e) => onSearchChange(e.target.value)}
+                  className="pl-10 w-full max-w-md border-gray-300 focus:border-orange-500 focus:ring-orange-500"
+                />
+              </div>
               
               {!isLoading && (
-                <p className="text-sm text-gray-500 mt-2">
+                <p className="text-sm text-gray-500">
                   {filteredAccounts.length} {filteredAccounts.length === 1 ? 'account' : 'accounts'} found
                 </p>
               )}
