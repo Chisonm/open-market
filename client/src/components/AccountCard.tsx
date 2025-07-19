@@ -121,18 +121,18 @@ const AccountCard = ({ account }: AccountCardProps) => {
             {/* Actions */}
             <div className="flex items-center justify-between mt-3">
               <div className="flex items-center space-x-2">
-                <Button variant="ghost" size="sm">
-                  <Eye className="h-4 w-4" />
+                <Button variant="ghost" size="sm" className="p-2">
+                  <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                 </Button>
               </div>
               <Button 
                 onClick={handleAddToCart}
                 disabled={addToCartMutation.isPending}
                 size="sm"
-                className="bg-orange-500 hover:bg-orange-600 text-white"
+                className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 text-xs sm:text-sm"
               >
                 {addToCartMutation.isPending ? (
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                 ) : (
                   <ShoppingCart className="h-4 w-4" />
                 )}

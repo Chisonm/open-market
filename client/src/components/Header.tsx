@@ -74,10 +74,15 @@ const Header = ({ searchTerm, onSearchChange }: HeaderProps) => {
               <ProfileDropdown />
             </div>
 
-            {/* Mobile menu */}
-            <Button variant="ghost" size="icon" className="lg:hidden">
-              <Menu className="h-5 w-5" />
-            </Button>
+            {/* Mobile menu and profile */}
+            <div className="flex items-center space-x-2 lg:hidden">
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+              </Button>
+              <div className="sm:hidden">
+                <ProfileDropdown />
+              </div>
+            </div>
           </div>
         </div>
       </div>
