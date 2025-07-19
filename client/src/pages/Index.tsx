@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import AccountCard from "@/components/AccountCard";
+import ProfileDropdown from "@/components/ProfileDropdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -65,11 +66,14 @@ const Index = () => {
         />
 
         {/* Mobile Filter Toggle */}
-        <div className="lg:hidden p-4 border-b bg-white">
-          <Button variant="outline" className="w-full justify-start">
+        <div className="lg:hidden p-4 border-b bg-white flex items-center justify-between">
+          <Button variant="outline" className="flex-1 justify-start mr-4">
             <Menu className="h-4 w-4 mr-2" />
             Filters & Categories
           </Button>
+          <div className="sm:hidden">
+            <ProfileDropdown />
+          </div>
         </div>
 
         {/* Main Content */}

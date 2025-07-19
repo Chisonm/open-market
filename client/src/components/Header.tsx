@@ -1,10 +1,9 @@
-import { User, Search, Bell, ShoppingCart, Menu } from "lucide-react";
+import { Bell, ShoppingCart, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { Link } from "wouter";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import ProfileDropdown from "@/components/ProfileDropdown";
 import type { CartItem, SocialMediaAccount } from "@shared/schema";
 
 interface HeaderProps {
@@ -71,9 +70,9 @@ const Header = ({ searchTerm, onSearchChange }: HeaderProps) => {
               </Button>
             </Link>
             
-            <Button variant="ghost" size="icon" className="hidden sm:flex">
-              <User className="h-5 w-5" />
-            </Button>
+            <div className="hidden sm:flex">
+              <ProfileDropdown />
+            </div>
 
             {/* Mobile menu */}
             <Button variant="ghost" size="icon" className="lg:hidden">
