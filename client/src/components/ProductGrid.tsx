@@ -131,9 +131,9 @@ const SocialMediaAccountGrid = () => {
             </div>
           )}
 
-          {/* Accounts Grid */}
+          {/* Accounts List */}
           {!isLoading && filteredAccounts.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="space-y-4">
               {filteredAccounts.map((account) => (
                 <SocialMediaAccountCard key={account.id} account={account} />
               ))}
