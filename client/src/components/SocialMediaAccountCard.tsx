@@ -156,6 +156,23 @@ const SocialMediaAccountCard = ({ account }: SocialMediaAccountCardProps) => {
                   <Button variant="ghost" size="icon" className="h-8 w-8">
                     <Heart className="h-4 w-4" />
                   </Button>
+                  <Button 
+                    onClick={handleAddToCart}
+                    disabled={addToCartMutation.isPending}
+                    size="sm"
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    {addToCartMutation.isPending ? (
+                      <div className="flex items-center space-x-2">
+                        <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center space-x-2">
+                        <ShoppingCart className="h-4 w-4" />
+                        <span className="hidden sm:inline">Add to Cart</span>
+                      </div>
+                    )}
+                  </Button>
                 </div>
               </div>
             </div>

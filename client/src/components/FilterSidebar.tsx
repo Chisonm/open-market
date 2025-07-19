@@ -80,20 +80,20 @@ const FilterSidebarContent = ({
   ];
 
   return (
-    <div className="w-full h-full overflow-y-auto bg-black text-white p-6 space-y-6">
+    <div className="w-full h-full overflow-y-auto bg-white text-gray-900 p-6 space-y-6 border-r">
       {/* Filter Header */}
-      <h2 className="text-2xl font-bold text-white">Filter</h2>
+      <h2 className="text-2xl font-bold text-gray-900">Filter</h2>
 
       {/* Account Category */}
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-white">Account Category</h3>
-        <hr className="border-gray-600" />
+        <h3 className="text-lg font-medium text-gray-900">Account Category</h3>
+        <hr className="border-gray-200" />
         
         {categories.map((category, index) => (
-          <div key={index} className="flex items-center justify-between p-3 hover:bg-gray-800 rounded-lg cursor-pointer">
+          <div key={index} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
             <div className="flex items-center space-x-3">
               <span className="text-lg">{category.icon}</span>
-              <span className="text-white">{category.name}</span>
+              <span className="text-gray-700">{category.name}</span>
             </div>
             <svg 
               className="w-4 h-4 text-gray-400" 
@@ -109,31 +109,25 @@ const FilterSidebarContent = ({
 
       {/* Price Range */}
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-white">Price range</h3>
+        <h3 className="text-lg font-medium text-gray-900">Price range</h3>
         
         {/* Price Range Slider */}
         <div className="px-2">
           <div className="relative">
-            <input
-              type="range"
-              min="0"
-              max="2000"
-              value={priceRange[0]}
-              onChange={(e) => setPriceRange([parseInt(e.target.value), priceRange[1]])}
-              className="absolute w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+            <Slider
+              value={priceRange}
+              onValueChange={(value) => {
+                setPriceRange(value);
+                onMaxPriceChange(value[1].toString());
+              }}
+              min={0}
+              max={2000}
+              step={10}
+              className="w-full"
             />
-            <input
-              type="range"
-              min="0"
-              max="2000"
-              value={priceRange[1]}
-              onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-              className="absolute w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
-            />
-            <div className="flex justify-between items-center mt-8">
-              <div className="w-20 h-2 bg-orange-500 rounded-full"></div>
-              <div className="flex-1 h-2 bg-orange-500 rounded-full mx-2"></div>
-              <div className="w-20 h-2 bg-orange-500 rounded-full"></div>
+            <div className="flex justify-between text-sm text-gray-500 mt-2">
+              <span>$0</span>
+              <span>$2000</span>
             </div>
           </div>
         </div>
@@ -141,15 +135,15 @@ const FilterSidebarContent = ({
         {/* Min/Max Inputs */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label className="text-gray-400 text-sm">Minimum</Label>
-            <div className="bg-gray-800 border border-gray-600 rounded-lg p-3">
-              <span className="text-white text-lg">$ {priceRange[0]}</span>
+            <Label className="text-gray-600 text-sm">Minimum</Label>
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+              <span className="text-gray-900 text-lg">${priceRange[0]}</span>
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="text-gray-400 text-sm">Maximum</Label>
-            <div className="bg-gray-800 border border-gray-600 rounded-lg p-3">
-              <span className="text-white text-lg">$ {priceRange[1]}</span>
+            <Label className="text-gray-600 text-sm">Maximum</Label>
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+              <span className="text-gray-900 text-lg">${priceRange[1]}</span>
             </div>
           </div>
         </div>
@@ -160,7 +154,7 @@ const FilterSidebarContent = ({
         <Button
           variant="outline"
           onClick={onClearFilters}
-          className="w-full bg-gray-800 border-gray-600 text-white hover:bg-gray-700"
+          className="w-full bg-white border-gray-200 text-gray-900 hover:bg-gray-50"
         >
           <X className="h-4 w-4 mr-2" />
           Clear All Filters
@@ -176,7 +170,7 @@ const FilterSidebar = (props: FilterSidebarProps) => {
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block lg:w-80 bg-black border-r border-gray-800">
+      <div className="hidden lg:block lg:w-80 bg-white border-r border-gray-200">
         <div className="sticky top-16">
           <FilterSidebarContent {...props} />
         </div>
@@ -196,7 +190,7 @@ const FilterSidebar = (props: FilterSidebarProps) => {
               )}
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[350px] p-0 bg-black border-gray-800">
+          <SheetContent side="left" className="w-[350px] p-0 bg-white border-gray-200">
             <FilterSidebarContent {...props} />
           </SheetContent>
         </Sheet>
