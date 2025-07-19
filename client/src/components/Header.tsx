@@ -1,4 +1,4 @@
-import { Search, ShoppingCart, User, Heart, Menu } from "lucide-react";
+import { Search, User, Heart, Menu, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -13,8 +13,8 @@ const Header = () => {
               <Menu className="h-5 w-5" />
             </Button>
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-hero"></div>
-              <span className="hidden font-bold sm:inline-block">OpenMarket</span>
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600"></div>
+              <span className="hidden font-bold sm:inline-block text-xl">SocialMarket</span>
             </div>
           </div>
 
@@ -23,7 +23,7 @@ const Header = () => {
             <div className="relative w-full max-w-lg">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="Search products..."
+                placeholder="Search social media accounts..."
                 className="pl-10 pr-4"
               />
             </div>
@@ -34,15 +34,13 @@ const Header = () => {
             <Button variant="ghost" size="icon" className="hidden md:flex">
               <Heart className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon">
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
             <Button variant="outline" size="sm" className="hidden md:flex">
               <User className="h-4 w-4 mr-2" />
               Sign In
             </Button>
-            <Button variant="marketplace" size="sm">
-              Sell
+            <Button size="sm" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
+              <Plus className="h-4 w-4 mr-2" />
+              List Account
             </Button>
           </nav>
         </div>

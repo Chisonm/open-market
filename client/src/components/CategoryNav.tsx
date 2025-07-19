@@ -1,62 +1,52 @@
 import { 
-  Smartphone, 
-  Laptop, 
-  Car, 
-  Home, 
-  Shirt, 
+  Instagram, 
+  Twitter, 
+  Facebook, 
+  Youtube, 
+  Music, 
   Gamepad2, 
-  Book, 
+  Camera, 
   Dumbbell,
-  Wrench
+  Briefcase
 } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useState } from "react";
+
+interface CategoryNavProps {
+  selectedCategory: string;
+  onCategoryChange: (category: string) => void;
+}
 
 const categories = [
-  { name: "Electronics", icon: Smartphone, color: "text-blue-600" },
-  { name: "Computers", icon: Laptop, color: "text-purple-600" },
-  { name: "Vehicles", icon: Car, color: "text-red-600" },
-  { name: "Home & Garden", icon: Home, color: "text-green-600" },
-  { name: "Fashion", icon: Shirt, color: "text-pink-600" },
-  { name: "Gaming", icon: Gamepad2, color: "text-orange-600" },
-  { name: "Books", icon: Book, color: "text-amber-600" },
-  { name: "Sports", icon: Dumbbell, color: "text-emerald-600" },
-  { name: "Tools", icon: Wrench, color: "text-gray-600" },
+  { name: "All", color: "text-gray-600" },
+  { name: "lifestyle", color: "text-pink-600" },
+  { name: "technology", color: "text-blue-600" },
+  { name: "entertainment", color: "text-purple-600" },
+  { name: "food", color: "text-orange-600" },
+  { name: "fitness", color: "text-green-600" },
+  { name: "gaming", color: "text-red-600" },
+  { name: "business", color: "text-gray-800" },
+  { name: "fashion", color: "text-pink-500" },
 ];
 
-const CategoryNav = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-
+const CategoryNav = ({ selectedCategory, onCategoryChange }: CategoryNavProps) => {
   return (
     <div className="bg-background border-b">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">Browse Categories</h2>
-          <div className="flex-1 max-w-xs ml-4">
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => {
-                  const IconComponent = category.icon;
-                  return (
-                    <SelectItem key={category.name} value={category.name}>
-                      <div className="flex items-center space-x-2">
-                        <IconComponent className={`h-4 w-4 ${category.color}`} />
-                        <span>{category.name}</span>
-                      </div>
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <button
+                key={category.name}
+                onClick={() => onCategoryChange(category.name === "All" ? "" : category.name)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors
+                  ${selectedCategory === (category.name === "All" ? "" : category.name)
+                    ? "bg-blue-100 text-blue-700 border border-blue-300"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+              >
+                <span className={category.color}>{category.name === "All" ? "All" : category.name.charAt(0).toUpperCase() + category.name.slice(1)}</span>
+              </button>
+            ))}
           </div>
         </div>
       </div>
