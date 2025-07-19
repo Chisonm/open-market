@@ -3,7 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import AccountCard from "@/components/AccountCard";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Menu } from "lucide-react";
 import type { SocialMediaAccount } from "@shared/schema";
 
 const Index = () => {
@@ -54,20 +56,28 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50">
       <Header searchTerm={searchTerm} onSearchChange={setSearchTerm} />
       
-      <div className="flex">
+      <div className="flex flex-col lg:flex-row">
         {/* Sidebar */}
         <Sidebar
           selectedPlatforms={selectedPlatforms}
           onPlatformChange={setSelectedPlatforms}
         />
 
+        {/* Mobile Filter Toggle */}
+        <div className="lg:hidden p-4 border-b bg-white">
+          <Button variant="outline" className="w-full justify-start">
+            <Menu className="h-4 w-4 mr-2" />
+            Filters & Categories
+          </Button>
+        </div>
+
         {/* Main Content */}
-        <div className="flex-1 p-6">
-          <div className="max-w-4xl">
+        <div className="flex-1 p-4 sm:p-6 lg:p-8">
+          <div className="max-w-6xl mx-auto">
             {/* Page Header */}
             <div className="mb-6">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">Marketplace</h1>
-              <p className="text-gray-600">Access all products on the marketplace by our verified sellers</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Marketplace</h1>
+              <p className="text-sm sm:text-base text-gray-600">Access all products on the marketplace by our verified sellers</p>
               
               {!isLoading && (
                 <p className="text-sm text-gray-500 mt-2">

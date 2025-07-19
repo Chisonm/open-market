@@ -6,6 +6,7 @@ import { Router, Route, Switch } from "wouter";
 import { queryClient } from "@/lib/queryClient";
 import Index from "./pages/Index";
 import Cart from "./pages/Cart";
+import SellProduct from "./pages/SellProduct";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
@@ -17,6 +18,7 @@ const App = () => (
         <Switch>
           <Route path="/" component={Index} />
           <Route path="/cart" component={Cart} />
+          <Route path="/sell" component={SellProduct} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route component={NotFound} />
         </Switch>

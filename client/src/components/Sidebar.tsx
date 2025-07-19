@@ -120,8 +120,8 @@ const Sidebar = ({ selectedPlatforms, onPlatformChange }: SidebarProps) => {
   };
 
   return (
-    <div className="w-80 bg-white border-r border-gray-200 h-screen sticky top-0">
-      <div className="p-6 h-full overflow-y-auto">
+    <div className="w-80 bg-white border-r border-gray-200 h-screen sticky top-0 hidden lg:block">
+      <div className="p-4 lg:p-6 h-full overflow-y-auto">
         {/* Filter Header */}
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Filter</h2>

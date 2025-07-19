@@ -67,11 +67,11 @@ const AccountCard = ({ account }: AccountCardProps) => {
 
   return (
     <Card className="group hover:shadow-md transition-all duration-200">
-      <CardContent className="p-4">
-        <div className="flex items-center space-x-4">
+      <CardContent className="p-3 sm:p-4">
+        <div className="flex items-center space-x-3 sm:space-x-4">
           {/* Platform Icon */}
           <div className="flex-shrink-0">
-            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-2xl">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-full flex items-center justify-center text-xl sm:text-2xl">
               {getPlatformIcon(account.platform)}
             </div>
           </div>
@@ -79,11 +79,11 @@ const AccountCard = ({ account }: AccountCardProps) => {
           {/* Account Info */}
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between">
-              <div>
-                <h3 className="font-semibold text-gray-900 text-lg">
+              <div className="min-w-0 flex-1">
+                <h3 className="font-semibold text-gray-900 text-base sm:text-lg truncate">
                   {account.accountHandle}
                 </h3>
-                <p className="text-sm text-gray-600 mb-1">
+                <p className="text-xs sm:text-sm text-gray-600 mb-1 line-clamp-2">
                   {account.description || `${account.platform} account with ${account.followers.toLocaleString()} followers`}
                 </p>
                 
@@ -103,16 +103,16 @@ const AccountCard = ({ account }: AccountCardProps) => {
               </div>
 
               {/* Price and Rating */}
-              <div className="text-right">
+              <div className="text-right flex-shrink-0 ml-2">
                 <div className="flex items-center space-x-1 mb-1">
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-3 w-3 text-yellow-400 fill-current" />
+                      <Star key={i} className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-yellow-400 fill-current" />
                     ))}
                   </div>
-                  <span className="text-sm font-medium">8.4/5</span>
+                  <span className="text-xs sm:text-sm font-medium">8.4/5</span>
                 </div>
-                <p className="text-xl font-bold text-gray-900">
+                <p className="text-lg sm:text-xl font-bold text-gray-900">
                   ${price.toLocaleString()}
                 </p>
               </div>
@@ -122,8 +122,7 @@ const AccountCard = ({ account }: AccountCardProps) => {
             <div className="flex items-center justify-between mt-3">
               <div className="flex items-center space-x-2">
                 <Button variant="ghost" size="sm">
-                  <Eye className="h-4 w-4 mr-1" />
-                  View
+                  <Eye className="h-4 w-4" />
                 </Button>
               </div>
               <Button 
@@ -135,10 +134,7 @@ const AccountCard = ({ account }: AccountCardProps) => {
                 {addToCartMutation.isPending ? (
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                 ) : (
-                  <>
-                    <ShoppingCart className="h-4 w-4 mr-1" />
-                    Add to Cart
-                  </>
+                  <ShoppingCart className="h-4 w-4" />
                 )}
               </Button>
             </div>
