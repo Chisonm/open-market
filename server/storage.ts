@@ -1,4 +1,4 @@
-import { users, socialMediaAccounts, type User, type InsertUser, type SocialMediaAccount, type InsertSocialMediaAccount } from "@shared/schema";
+import { users, socialMediaAccounts, cartItems, type User, type InsertUser, type SocialMediaAccount, type InsertSocialMediaAccount, type CartItem, type InsertCartItem } from "@shared/schema";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -21,19 +21,29 @@ export interface IStorage {
   createSocialMediaAccount(account: InsertSocialMediaAccount): Promise<SocialMediaAccount>;
   updateSocialMediaAccount(id: number, updates: Partial<InsertSocialMediaAccount>): Promise<SocialMediaAccount | undefined>;
   deleteSocialMediaAccount(id: number): Promise<boolean>;
+
+  // Cart functionality
+  getCartItems(userId: number): Promise<(CartItem & { account: SocialMediaAccount })[]>;
+  addToCart(userId: number, accountId: number): Promise<CartItem>;
+  removeFromCart(userId: number, accountId: number): Promise<boolean>;
+  clearCart(userId: number): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private socialMediaAccounts: Map<number, SocialMediaAccount>;
+  private cartItems: Map<number, CartItem>;
   private currentUserId: number;
   private currentAccountId: number;
+  private currentCartItemId: number;
 
   constructor() {
     this.users = new Map();
     this.socialMediaAccounts = new Map();
+    this.cartItems = new Map();
     this.currentUserId = 1;
     this.currentAccountId = 1;
+    this.currentCartItemId = 1;
     
     // Add some mock data
     this.initializeMockData();
@@ -52,10 +62,13 @@ export class MemStorage implements IStorage {
         category: "lifestyle",
         verified: true,
         age: 24,
-        status: "available"
+        status: "available",
+        sellerName: "Sarah Martinez",
+        sellerRating: "4.8",
+        sellerReviews: 127
       },
       {
-        sellerId: 1,
+        sellerId: 2,
         platform: "twitter",
         accountHandle: "@techreviews_pro",
         followers: 89000,
@@ -65,10 +78,13 @@ export class MemStorage implements IStorage {
         category: "technology",
         verified: false,
         age: 18,
-        status: "available"
+        status: "available",
+        sellerName: "Alex Chen",
+        sellerRating: "4.6",
+        sellerReviews: 89
       },
       {
-        sellerId: 1,
+        sellerId: 3,
         platform: "tiktok",
         accountHandle: "@dance_moves",
         followers: 340000,
@@ -78,10 +94,13 @@ export class MemStorage implements IStorage {
         category: "entertainment",
         verified: true,
         age: 12,
-        status: "available"
+        status: "available",
+        sellerName: "Maya Johnson",
+        sellerRating: "4.9",
+        sellerReviews: 203
       },
       {
-        sellerId: 1,
+        sellerId: 4,
         platform: "youtube",
         accountHandle: "CookingMaster",
         followers: 78000,
@@ -91,10 +110,13 @@ export class MemStorage implements IStorage {
         category: "food",
         verified: false,
         age: 36,
-        status: "available"
+        status: "available",
+        sellerName: "Roberto Silva",
+        sellerRating: "4.7",
+        sellerReviews: 156
       },
       {
-        sellerId: 1,
+        sellerId: 5,
         platform: "facebook",
         accountHandle: "FitnessJourney",
         followers: 156000,
@@ -104,10 +126,13 @@ export class MemStorage implements IStorage {
         category: "fitness",
         verified: true,
         age: 28,
-        status: "available"
+        status: "available",
+        sellerName: "Emma Thompson",
+        sellerRating: "4.5",
+        sellerReviews: 92
       },
       {
-        sellerId: 1,
+        sellerId: 6,
         platform: "instagram",
         accountHandle: "@gaming_streams",
         followers: 67000,
@@ -117,7 +142,10 @@ export class MemStorage implements IStorage {
         category: "gaming",
         verified: false,
         age: 15,
-        status: "available"
+        status: "available",
+        sellerName: "Tyler Brooks",
+        sellerRating: "4.4",
+        sellerReviews: 67
       }
     ];
 
@@ -239,6 +267,65 @@ export class MemStorage implements IStorage {
 
   async deleteSocialMediaAccount(id: number): Promise<boolean> {
     return this.socialMediaAccounts.delete(id);
+  }
+
+  // Cart functionality
+  async getCartItems(userId: number): Promise<(CartItem & { account: SocialMediaAccount })[]> {
+    const userCartItems = Array.from(this.cartItems.values())
+      .filter(item => item.userId === userId);
+    
+    const result = [];
+    for (const cartItem of userCartItems) {
+      const account = this.socialMediaAccounts.get(cartItem.accountId);
+      if (account) {
+        result.push({ ...cartItem, account });
+      }
+    }
+    
+    return result;
+  }
+
+  async addToCart(userId: number, accountId: number): Promise<CartItem> {
+    // Check if item already exists in cart
+    const existing = Array.from(this.cartItems.values())
+      .find(item => item.userId === userId && item.accountId === accountId);
+    
+    if (existing) {
+      return existing;
+    }
+
+    const cartItem: CartItem = {
+      id: this.currentCartItemId++,
+      userId,
+      accountId,
+      quantity: 1,
+      createdAt: new Date()
+    };
+
+    this.cartItems.set(cartItem.id, cartItem);
+    return cartItem;
+  }
+
+  async removeFromCart(userId: number, accountId: number): Promise<boolean> {
+    const cartItem = Array.from(this.cartItems.values())
+      .find(item => item.userId === userId && item.accountId === accountId);
+    
+    if (cartItem) {
+      return this.cartItems.delete(cartItem.id);
+    }
+    
+    return false;
+  }
+
+  async clearCart(userId: number): Promise<boolean> {
+    const userCartItems = Array.from(this.cartItems.entries())
+      .filter(([_, item]) => item.userId === userId);
+    
+    userCartItems.forEach(([id, _]) => {
+      this.cartItems.delete(id);
+    });
+    
+    return true;
   }
 }
 

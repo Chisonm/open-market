@@ -1,8 +1,11 @@
-import { Heart, Eye, Users, TrendingUp, BadgeCheck, Instagram, Twitter, Facebook, Youtube, Music } from "lucide-react";
+import { Heart, Eye, Users, TrendingUp, BadgeCheck, Instagram, Twitter, Facebook, Youtube, Music, ShoppingCart, Star, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import type { SocialMediaAccount } from "@shared/schema";
+import { useState } from "react";
+import { toast } from "@/hooks/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface SocialMediaAccountCardProps {
   account: SocialMediaAccount;
@@ -40,6 +43,42 @@ const formatFollowers = (count: number): string => {
 const SocialMediaAccountCard = ({ account }: SocialMediaAccountCardProps) => {
   const price = parseFloat(account.price);
   const engagement = parseFloat(account.engagement || '0');
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const queryClient = useQueryClient();
+
+  const addToCartMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch('/api/cart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: 1, accountId: account.id })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to add to cart');
+      }
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Added to cart",
+        description: `${account.accountHandle} has been added to your cart.`,
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/cart/1'] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to add item to cart. Please try again.",
+        variant: "destructive",
+      });
+    }
+  });
+
+  const handleAddToCart = () => {
+    addToCartMutation.mutate();
+  };
 
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 border-0 shadow-md hover:-translate-y-1">
@@ -93,6 +132,24 @@ const SocialMediaAccountCard = ({ account }: SocialMediaAccountCardProps) => {
             {account.description}
           </p>
 
+          {/* Seller Info */}
+          {account.sellerName && (
+            <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+              <User className="h-4 w-4 text-gray-500" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-700">{account.sellerName}</p>
+                {account.sellerRating && (
+                  <div className="flex items-center space-x-1">
+                    <Star className="h-3 w-3 text-yellow-400 fill-current" />
+                    <span className="text-xs text-gray-600">
+                      {parseFloat(account.sellerRating).toFixed(1)} ({account.sellerReviews} reviews)
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Additional Info */}
           <div className="flex justify-between items-center text-xs text-gray-500">
             <span>Age: {account.age} months</span>
@@ -107,9 +164,14 @@ const SocialMediaAccountCard = ({ account }: SocialMediaAccountCardProps) => {
         </div>
         
         <div className="flex space-x-2">
-          <Button variant="outline" size="sm">
-            <Eye className="h-4 w-4 mr-1" />
-            View
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={handleAddToCart}
+            disabled={addToCartMutation.isPending}
+          >
+            <ShoppingCart className="h-4 w-4 mr-1" />
+            {addToCartMutation.isPending ? "Adding..." : "Add to Cart"}
           </Button>
           <Button size="sm" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
             Buy Now
